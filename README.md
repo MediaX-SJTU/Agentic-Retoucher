@@ -7,7 +7,7 @@ Shaocheng Shen, Jianfeng Liang, Chunlei Cai, Cong Geng, Huiyu Duan, Xiaoyun Zhan
 
 ## Some Information
 
-[Project Page](https://shaochengshen.github.io/Agentic-Retoucher/) $\cdot$ [arxiv](https://arxiv.org/abs/2601.02046) $\cdot$ Datasets
+[Project Page](https://mediax-sjtu.github.io/Agentic-Retoucher/) $\cdot$ [arxiv](https://arxiv.org/abs/2601.02046) $\cdot$ Datasets
 
 ## Citation
 
