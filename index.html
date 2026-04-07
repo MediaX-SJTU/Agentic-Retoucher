@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Agentic Retoucher for Text-To-Image Generation - Shaocheng Shen, Jianfeng Liang et al.">
+  <meta name="description" content="Agentic Retoucher: a hierarchical perception-reasoning-action framework that autonomously localizes and corrects small-scale distortions in T2I diffusion model outputs, with GenBlemish-27K dataset.">
+  <meta name="keywords" content="text-to-image generation, diffusion models, image distortion, agentic system, AIGC, image retouching, vision-language model, CVPR 2026">
+  <meta name="author" content="Shaocheng Shen, Jianfeng Liang, Chunlei Cai, Cong Geng, Huiyu Duan, Xiaoyun Zhang, Qiang Hu, Guangtao Zhai">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Shanghai Jiao Tong University - IMP Lab">
+  <meta property="og:title" content="Agentic Retoucher for Text-To-Image Generation">
+  <meta property="og:description" content="Agentic Retoucher: a hierarchical perception-reasoning-action framework that autonomously localizes and corrects small-scale distortions in T2I diffusion model outputs, with GenBlemish-27K dataset.">
+  <meta property="og:url" content="https://arxiv.org/abs/2601.02046">
+  <meta property="og:image" content="https://YOUR_DOMAIN.com/static/images/social_preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Agentic Retoucher - Research Preview">
+  <meta property="article:published_time" content="2026-01-01T00:00:00.000Z">
+  <meta property="article:author" content="Shaocheng Shen">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="text-to-image generation">
+  <meta property="article:tag" content="agentic system">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@YOUR_TWITTER_HANDLE">
+  <meta name="twitter:creator" content="@AUTHOR_TWITTER_HANDLE">
+  <meta name="twitter:title" content="Agentic Retoucher for Text-To-Image Generation">
+  <meta name="twitter:description" content="Agentic Retoucher: a hierarchical perception-reasoning-action framework that autonomously localizes and corrects small-scale distortions in T2I diffusion model outputs, with GenBlemish-27K dataset.">
+  <meta name="twitter:image" content="https://YOUR_DOMAIN.com/static/images/social_preview.png">
+  <meta name="twitter:image:alt" content="Agentic Retoucher - Research Preview">
+
+  <!-- Academic/Research Specific -->
+  <meta name="citation_title" content="Agentic Retoucher for Text-To-Image Generation">
+  <meta name="citation_author" content="Shen, Shaocheng">
+  <meta name="citation_author" content="Liang, Jianfeng">
+  <meta name="citation_author" content="Cai, Chunlei">
+  <meta name="citation_author" content="Geng, Cong">
+  <meta name="citation_author" content="Duan, Huiyu">
+  <meta name="citation_author" content="Zhang, Xiaoyun">
+  <meta name="citation_author" content="Hu, Qiang">
+  <meta name="citation_author" content="Zhai, Guangtao">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="CVPR 2026">
+  <meta name="citation_pdf_url" content="https://arxiv.org/pdf/2601.02046.pdf">
+  
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://documentcloud.adobe.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+
+  <title>Agentic Retoucher - Shaocheng Shen et al. | CVPR 2026</title>
+  
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+  
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+  
+  <!-- Structured Data for Academic Papers -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "Agentic Retoucher for Text-To-Image Generation",
+    "description": "Agentic Retoucher: a hierarchical perception-reasoning-action framework that autonomously localizes and corrects small-scale distortions in T2I diffusion model outputs, with GenBlemish-27K dataset.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Shaocheng Shen",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Shanghai Jiao Tong University"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Jianfeng Liang",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Shanghai Jiao Tong University"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Chunlei Cai",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Shanghai Jiao Tong University"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Cong Geng",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "JIUTIAN Research"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Huiyu Duan",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Shanghai Jiao Tong University"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Xiaoyun Zhang",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Shanghai Jiao Tong University"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Qiang Hu",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Shanghai Jiao Tong University"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Guangtao Zhai",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Shanghai Jiao Tong University"
+        }
+      }
+    ],
+    "datePublished": "2026-01-01",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CVPR 2026"
+    },
+    "url": "https://arxiv.org/abs/2601.02046",
+    "image": "https://YOUR_DOMAIN.com/static/images/social_preview.png",
+    "keywords": ["text-to-image generation", "diffusion models", "agentic system", "image distortion", "AIGC", "GenBlemish-27K"],
+    "abstract": "Text-to-image (T2I) diffusion models such as SDXL and FLUX have achieved impressive photorealism, yet small-scale distortions remain pervasive in limbs, face, text and so on. Existing refinement approaches either perform costly iterative re-generation or rely on vision-language models (VLMs) with weak spatial grounding, leading to semantic drift and unreliable local edits. To close this gap, we propose Agentic Retoucher, a hierarchical decision-driven framework that reformulates post-generation correction as a human-like perception-reasoning-action loop.",
+    "citation": "@article{shen2026agenticretoucher, title={Agentic Retoucher for Text-To-Image Generation}, author={Shaocheng Shen and Jianfeng Liang and Chunlei Cai and Cong Geng and Huiyu Duan and Xiaoyun Zhang and Qiang Hu and Guangtao Zhai}, journal={CVPR}, year={2026}, url={https://arxiv.org/abs/2601.02046}}",
+    "isAccessibleForFree": true,
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntity": {
+      "@type": "WebPage",
+      "@id": "https://arxiv.org/abs/2601.02046"
+    },
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "Text-to-Image Generation"
+      },
+      {
+        "@type": "Thing", 
+        "name": "Agentic System"
+      },
+      {
+        "@type": "Thing",
+        "name": "Image Distortion Correction"
+      }
+    ]
+  }
+  </script>
+  
+  <!-- Website/Organization Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Shanghai Jiao Tong University - IMP Lab",
+    "url": "https://www.sjtu.edu.cn",
+    "logo": "https://YOUR_DOMAIN.com/static/images/favicon.ico",
+    "sameAs": [
+      "https://github.com/shaochengshen"
+    ]
+  }
+  </script>
+</head>
+<body>
+
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <!-- More Works Dropdown -->
+  <div class="more-works-container">
+    <button class="more-works-btn" onclick="toggleMoreWorks()" title="View More Works from Our Lab">
+      <i class="fas fa-flask"></i>
+      More Works
+      <i class="fas fa-chevron-down dropdown-arrow"></i>
+    </button>
+    <div class="more-works-dropdown" id="moreWorksDropdown">
+      <div class="dropdown-header">
+        <h4>More Works from Our Lab</h4>
+        <button class="close-btn" onclick="toggleMoreWorks()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="works-list">
+        <a href="https://arxiv.org/abs/2602.08395" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>D²-VR: Degradation-Robust and Distilled Video Restoration</h5>
+            <p>Degradation-robust video restoration with synergistic optimization strategy.</p>
+            <span class="work-venue">arXiv 2026</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://arxiv.org/abs/2504.16080" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>MoA-VR: Mixture-of-Agents for All-in-One Video Restoration</h5>
+            <p>A mixture-of-agents system towards all-in-one video restoration.</p>
+            <span class="work-venue">IEEE JSTSP 2025</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://arxiv.org/abs/2511.17138" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>MegaFusion: Extend Diffusion Models Towards Higher-Resolution Image Generation</h5>
+            <p>Extending diffusion models towards higher-resolution image generation without further tuning.</p>
+            <span class="work-venue">WACV 2025</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+        <a href="https://arxiv.org/abs/2503.17750" class="work-item" target="_blank">
+          <div class="work-info">
+            <h5>Serial Low-rank Adaptation of Vision Transformer</h5>
+            <p>A serial low-rank adaptation approach for efficient fine-tuning of Vision Transformers.</p>
+            <span class="work-venue">ICME 2025</span>
+          </div>
+          <i class="fas fa-external-link-alt"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Agentic Retoucher for Text-To-Image Generation</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="#" target="_blank">Shaocheng Shen</a><sup>1*</sup>,</span>
+              <span class="author-block">
+                <a href="#" target="_blank">Jianfeng Liang</a><sup>1*</sup>,</span>
+              <span class="author-block">
+                <a href="#" target="_blank">Chunlei Cai</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="#" target="_blank">Cong Geng</a><sup>2</sup>,</span>
+              <span class="author-block">
+                <a href="#" target="_blank">Huiyu Duan</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="#" target="_blank">Xiaoyun Zhang</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="#" target="_blank">Qiang Hu</a><sup>1†</sup>,</span>
+              <span class="author-block">
+                <a href="#" target="_blank">Guangtao Zhai</a><sup>1</sup>
+              </span>
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Shanghai Jiao Tong University, Shanghai, China&nbsp;&nbsp;<sup>2</sup>JIUTIAN Research, Beijing, China<br>CVPR 2026</span>
+              <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution&nbsp;&nbsp;<sup>†</sup>Corresponding Author</small></span>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <span class="link-block">
+                  <a href="https://arxiv.org/pdf/2601.02046.pdf" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+
+            <span class="link-block">
+              <a href="https://github.com/MediaX-SJTU/Agentic-Retoucher" target="_blank"
+              class="external-link button is-normal is-rounded is-dark">
+              <span class="icon">
+                <i class="fab fa-github"></i>
+              </span>
+              <span>Code</span>
+            </a>
+          </span>
+
+          <span class="link-block">
+            <a href="https://arxiv.org/abs/2601.02046" target="_blank"
+            class="external-link button is-normal is-rounded is-dark">
+            <span class="icon">
+              <i class="ai ai-arxiv"></i>
+            </span>
+            <span>arXiv</span>
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Teaser video-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/teaser.png" alt="Agentic Retoucher Teaser" style="width:100%; height:auto; display:block;" loading="eager"/>
+      <h2 class="subtitle has-text-centered">
+        Left: Existing VLMs hallucinate and fail to localize distortions in AIGC-images, even with explicit region cues, whereas our method accurately localizes distorted regions and provides reasonable diagnoses. Right: Each before-after pair shows the distorted image
+and the result refined by our Agentic Retoucher, including diverse distortion artifacts across text, hand, face, and interaction.
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End teaser video -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Text-to-image (T2I) diffusion models such as SDXL and FLUX have achieved impressive photorealism, yet small-scale distortions remain pervasive in limbs, face, text and so on. Existing refinement approaches either perform costly iterative re-generation or rely on vision-language models (VLMs) with weak spatial grounding, leading to semantic drift and unreliable local edits. To close this gap, we propose <strong>Agentic Retoucher</strong>, a hierarchical decision-driven framework that reformulates post-generation correction as a human-like <em>perception-reasoning-action</em> loop. Specifically, we design (1) a <strong>perception agent</strong> that learns contextual saliency for fine-grained distortion localization under text-image consistency cues, (2) a <strong>reasoning agent</strong> that performs human-aligned inferential diagnosis via progressive preference alignment, and (3) an <strong>action agent</strong> that adaptively plans localized inpainting guided by user preference. This design integrates perceptual evidence, linguistic reasoning, and controllable correction into a unified, self-corrective decision process. To enable fine-grained supervision and quantitative evaluation, we further construct <strong>GenBlemish-27K</strong>, a dataset of 6K T2I images with 27K annotated artifact regions across 12 categories. Extensive experiments demonstrate that Agentic Retoucher consistently outperforms state-of-the-art methods in perceptual quality, distortion localization and human preference alignment, establishing a new paradigm for self-corrective and perceptually reliable T2I generation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+<!-- Method -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Method</h2>
+    <div class="has-text-centered">
+      <img src="ar-2.PNG" alt="Overview of Agentic Retoucher Framework" style="width:100%; height:auto; display:block;" loading="lazy"/>
+    </div>
+    <div class="content has-text-justified" style="margin-top: 1.5rem;">
+      <p>
+        <strong>Overview of the proposed Agentic Retoucher.</strong> The framework operates as a perception-reasoning-action loop for post-generation correction in AIGC. The Perception Agent localizes context-dependent distortions via cross-modal saliency prediction, the Reasoning Agent performs human-aligned diagnosis through iterative reasoning, and the Action Agent executes adaptive localized inpainting guided by reasoning outputs, forming a closed-loop self-corrective process.
+      </p>
+    </div>
+  </div>
+</section>
+<!-- End Method -->
+
+
+<!-- Dataset -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Dataset: GenBlemish-27K</h2>
+    <div class="has-text-centered">
+      <img src="ar-3.PNG" alt="Overview of GenBlemish-27K Dataset" style="width:100%; height:auto; display:block;" loading="lazy"/>
+    </div>
+    <div class="content has-text-justified" style="margin-top: 1.5rem;">
+      <p>
+        <strong>Overview of GenBlemish-27K.</strong> The figure illustrates (a) the dual-layer distortion taxonomy with six high-level dimensions and twelve fine-grained categories, (b) the distribution of localized distortion types, (c) the human-AI collaborative annotation pipeline, and (d) representative formatted samples with pixel-level masks and textual descriptions, highlighting how GenBlemish-27K enables fine-grained localization and reasoning over diverse text-to-image distortions.
+      </p>
+    </div>
+  </div>
+</section>
+<!-- End Dataset -->
+
+
+<!-- ===================== Image Carousel (temporarily disabled) =====================
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+       <div class="item">
+        <img src="static/images/carousel1.jpg" alt="Agentic Retoucher hand distortion correction result" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">
+          Agentic Retoucher corrects hand distortions in T2I generated images, restoring natural finger anatomy while preserving background details.
+        </h2>
+      </div>
+      <div class="item">
+        <img src="static/images/carousel2.jpg" alt="Agentic Retoucher face distortion correction result" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">
+          The framework accurately localizes and repairs facial distortions, producing coherent and plausible facial features.
+        </h2>
+      </div>
+      <div class="item">
+        <img src="static/images/carousel3.jpg" alt="Agentic Retoucher interaction distortion correction result" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">
+          Complex human interaction distortions are identified via context-aware perception and resolved through targeted inpainting.
+        </h2>
+      </div>
+      <div class="item">
+        <img src="static/images/carousel4.jpg" alt="GenBlemish-27K dataset overview" loading="lazy"/>
+        <h2 class="subtitle has-text-centered">
+          Overview of GenBlemish-27K: 6K T2I images with 27K pixel-level annotated distortion regions across 12 artifact categories.
+        </h2>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+===================== End Image Carousel ===================== -->
+
+<!-- ===================== Experiment Results Sections ===================== -->
+
+<!-- Quantitative Results -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Quantitative Results</h2>
+    <div class="has-text-centered">
+      <img src="ar-4.PNG" alt="Quantitative comparison of Agentic Retoucher" style="width:100%; height:auto; display:block;" loading="lazy"/>
+    </div>
+    <div class="content has-text-justified" style="margin-top: 1.5rem;">
+      <p>
+        Quantitative comparison of Agentic Retoucher with VLM-based and mask-based inpainting baselines on the GenBlemish-27K and SynArtifacts-1K datasets.
+      </p>
+    </div>
+    <div class="has-text-centered" style="margin-top: 2rem;">
+      <img src="ar-7.png" alt="Quantitative evaluation of Perception Agent and Reasoning Agent" style="width:100%; height:auto; display:block;" loading="lazy"/>
+    </div>
+    <div class="content has-text-justified" style="margin-top: 1.5rem;">
+      <p>
+        <strong>Left:</strong> Quantitative evaluation of the Context-Aware Perception Agent on distortion-aware saliency prediction. Higher AUC-Judd, NSS, CC, SIM and lower KLD indicate better context perception. <strong>Right:</strong> Quantitative evaluation and ablation of the Human-Alignment Reasoning Agent.
+      </p>
+    </div>
+  </div>
+</section>
+<!-- End Quantitative Results -->
+
+<!-- Qualitative Results -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Qualitative Results</h2>
+    <div class="has-text-centered">
+      <img src="ar-8.png" alt="Qualitative comparison of retouching results" style="width:100%; height:auto; display:block;" loading="lazy"/>
+    </div>
+    <div class="content has-text-justified" style="margin-top: 1.5rem;">
+      <p>
+        Qualitative comparison of retouching results across diverse prompts. White bounding boxes indicate zoomed-in fine-grained regions. Agentic Retoucher retouches local distortions and implausibilities while maintaining global visual harmony, outperforming both VLM-based and mask-based baselines.
+      </p>
+    </div>
+  </div>
+</section>
+<!-- End Qualitative Results -->
+
+<!-- Ablation Study 
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Ablation Study</h2>
+    <div class="content">
+
+    </div>
+  </div>
+</section> -->
+<!-- End Ablation Study -->
+
+<!-- ===================== End Experiment Results Sections ===================== -->
+
+
+<!-- ===================== Video Presentation (temporarily disabled) =====================
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">Video Presentation</h2>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <div class="publication-video">
+            <iframe src="https://www.youtube.com/embed/JkaxUblCGz0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+===================== End Video Presentation ===================== -->
+
+
+<!-- ===================== Video Carousel (temporarily disabled) =====================
+<section class="hero is-small">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3">Qualitative Results</h2>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-video1">
+          <video poster="" id="video1" controls muted loop height="100%" preload="metadata">
+            <source src="static/videos/carousel1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video2">
+          <video poster="" id="video2" controls muted loop height="100%" preload="metadata">
+            <source src="static/videos/carousel2.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-video3">
+          <video poster="" id="video3" controls muted loop height="100%" preload="metadata">
+            <source src="static/videos/carousel3.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+===================== End Video Carousel ===================== -->
+
+
+<!-- ===================== Paper Poster (temporarily disabled) =====================
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title">Poster</h2>
+      <iframe src="static/pdfs/sample.pdf" width="100%" height="550"></iframe>
+    </div>
+  </div>
+</section>
+===================== End Paper Poster ===================== -->
+
+
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>@misc{shen2026agenticretouchertexttoimagegeneration,
+        title={Agentic Retoucher for Text-To-Image Generation}, 
+        author={Shaocheng Shen and Jianfeng Liang and Chunlei Cai and Cong Geng and Huiyu Duan and Xiaoyun Zhang and Qiang Hu and Guangtao Zhai},
+        year={2026},
+        eprint={2601.02046},
+        archivePrefix={arXiv},
+        primaryClass={cs.CV},
+        url={https://arxiv.org/abs/2601.02046}, 
+  }
+</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
